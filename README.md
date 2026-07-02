@@ -107,7 +107,8 @@ all protected requests use it automatically. Adjust the `base_url` variable if y
 php artisan test
 ```
 
-Tests use an in-memory SQLite database and `Http::fake()` — no real API keys required. Coverage
+The full test suite runs without any provider keys (HTTP is mocked) — keys are only needed to
+fetch live articles. Tests use an in-memory SQLite database and `Http::fake()` — no real API keys required. Coverage
 includes provider normalization, fetch idempotency (no duplicates on re-run), skipping
 unconfigured providers, article search/filter/pagination, auth, preferences validation, and the
 personalized feed.
