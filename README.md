@@ -49,7 +49,8 @@ php artisan serve
 ```bash
 php artisan news:fetch          # dispatch one queued job per configured provider
 php artisan news:fetch --sync   # run inline (no queue worker needed)
-php artisan news:fetch --provider=guardian --sync
+php artisan news:fetch --provider=guardian #dispatch provider by name
+php artisan news:fetch --provider=guardian --sync #to run inline for specific provider
 ```
 
 The scheduler (in `routes/console.php`) runs `news:fetch` **hourly**. Enable it locally with:
