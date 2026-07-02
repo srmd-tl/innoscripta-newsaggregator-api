@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    'newsapi' => [
+        'key' => env('NEWSAPI_KEY'),
+        'base_url' => env('NEWSAPI_BASE_URL', 'https://newsapi.org/v2'),
+        'enabled' => env('NEWSAPI_ENABLED', true),
+    ],
+
+    'guardian' => [
+        'key' => env('GUARDIAN_KEY'),
+        'base_url' => env('GUARDIAN_BASE_URL', 'https://content.guardianapis.com'),
+        'enabled' => env('GUARDIAN_ENABLED', true),
+    ],
+
+    'nyt' => [
+        'key' => env('NYT_KEY'),
+        'base_url' => env('NYT_BASE_URL', 'https://api.nytimes.com/svc/search/v2'),
+        'enabled' => env('NYT_ENABLED', true),
+    ],
+
 ];

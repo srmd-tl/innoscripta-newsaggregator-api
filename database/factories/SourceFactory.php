@@ -1,0 +1,29 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Source;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
+/**
+ * @extends Factory<Source>
+ */
+class SourceFactory extends Factory
+{
+    /**
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $name = fake()->unique()->company();
+
+        return [
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'provider' => fake()->randomElement(['newsapi', 'guardian', 'nyt']),
+            'external_id' => fake()->optional()->slug(),
+            'enabled' => true,
+        ];
+    }
+}

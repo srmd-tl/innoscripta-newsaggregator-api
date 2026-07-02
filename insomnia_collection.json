@@ -1,0 +1,219 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-07-02T00:00:00.000Z",
+  "__export_source": "claude:news-aggregator-api",
+  "resources": [
+    {
+      "_id": "wrk_news_aggregator",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "News Aggregator API",
+      "description": "Innoscripta task — News Aggregator REST API (v1). Import this into Insomnia, then run Register or Login and paste the returned token into the environment's `token` variable.",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_news_aggregator",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8000/api/v1",
+        "token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "token"]
+      },
+      "metaSortKey": 1
+    },
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "parentId": "wrk_news_aggregator",
+      "name": "Auth",
+      "description": "Register / login return a `token`. Copy it into the environment `token` variable to authorize the protected requests.",
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_register",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Register",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"password\": \"Password123!\",\n  \"password_confirmation\": \"Password123!\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_login",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"Password123!\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_logout",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Logout",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/logout",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -80
+    },
+    {
+      "_id": "fld_articles",
+      "_type": "request_group",
+      "parentId": "wrk_news_aggregator",
+      "name": "Articles (public)",
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_articles_index",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "List Articles",
+      "method": "GET",
+      "url": "{{ _.base_url }}/articles",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "parameters": [
+        { "name": "q", "value": "climate", "disabled": true, "description": "Keyword — matches title/description" },
+        { "name": "source", "value": "the-guardian", "disabled": true, "description": "Source slug or numeric id" },
+        { "name": "category", "value": "technology", "disabled": true, "description": "Category slug or numeric id" },
+        { "name": "author", "value": "", "disabled": true, "description": "Author slug or numeric id" },
+        { "name": "date_from", "value": "2026-01-01", "disabled": true, "description": "YYYY-MM-DD" },
+        { "name": "date_to", "value": "2026-07-02", "disabled": true, "description": "YYYY-MM-DD, >= date_from" },
+        { "name": "sort", "value": "desc", "disabled": true, "description": "asc | desc (by published_at)" },
+        { "name": "per_page", "value": "15", "disabled": true, "description": "1-100" }
+      ],
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_articles_show",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "Show Article",
+      "method": "GET",
+      "url": "{{ _.base_url }}/articles/1",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "metaSortKey": -90
+    },
+    {
+      "_id": "fld_taxonomy",
+      "_type": "request_group",
+      "parentId": "wrk_news_aggregator",
+      "name": "Sources & Categories (public)",
+      "metaSortKey": -80
+    },
+    {
+      "_id": "req_sources_index",
+      "_type": "request",
+      "parentId": "fld_taxonomy",
+      "name": "List Sources",
+      "method": "GET",
+      "url": "{{ _.base_url }}/sources",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_categories_index",
+      "_type": "request",
+      "parentId": "fld_taxonomy",
+      "name": "List Categories",
+      "method": "GET",
+      "url": "{{ _.base_url }}/categories",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "metaSortKey": -90
+    },
+    {
+      "_id": "fld_account",
+      "_type": "request_group",
+      "parentId": "wrk_news_aggregator",
+      "name": "Preferences & Feed (auth)",
+      "description": "Require a valid bearer token in the environment `token` variable.",
+      "metaSortKey": -70
+    },
+    {
+      "_id": "req_preferences_show",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Get Preferences",
+      "method": "GET",
+      "url": "{{ _.base_url }}/preferences",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_preferences_update",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Update Preferences",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/preferences",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"sources\": [1],\n  \"categories\": [1],\n  \"authors\": [1]\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "metaSortKey": -90
+    },
+    {
+      "_id": "req_feed_index",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Personalized Feed",
+      "method": "GET",
+      "url": "{{ _.base_url }}/feed",
+      "headers": [
+        { "name": "Accept", "value": "application/json" }
+      ],
+      "authentication": { "type": "bearer", "token": "{{ _.token }}" },
+      "parameters": [
+        { "name": "q", "value": "", "disabled": true, "description": "Keyword — matches title/description" },
+        { "name": "source", "value": "", "disabled": true, "description": "Source slug or numeric id" },
+        { "name": "category", "value": "", "disabled": true, "description": "Category slug or numeric id" },
+        { "name": "author", "value": "", "disabled": true, "description": "Author slug or numeric id" },
+        { "name": "date_from", "value": "", "disabled": true, "description": "YYYY-MM-DD" },
+        { "name": "date_to", "value": "", "disabled": true, "description": "YYYY-MM-DD, >= date_from" },
+        { "name": "sort", "value": "desc", "disabled": true, "description": "asc | desc (by published_at)" },
+        { "name": "per_page", "value": "15", "disabled": true, "description": "1-100" }
+      ],
+      "metaSortKey": -80
+    }
+  ]
+}
