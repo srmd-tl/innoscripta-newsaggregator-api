@@ -94,6 +94,13 @@ curl -X PUT http://localhost:8000/api/v1/preferences \
 curl http://localhost:8000/api/v1/feed -H "Authorization: Bearer <token>"
 ```
 
+### API client collection
+
+An importable collection (`insomnia_collection.json`) is provided at the project root so you can
+test every endpoint from your REST client. Import it into Insomnia (**Import → From File**), then
+run **Register** or **Login** and paste the returned token into the environment's `token` variable —
+all protected requests use it automatically. Adjust the `base_url` variable if your host/port differ.
+
 ## Testing
 
 ```bash
